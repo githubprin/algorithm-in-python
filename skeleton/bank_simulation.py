@@ -1,7 +1,8 @@
 import random
 import math
 
-from ADT.queue import Queue 
+from ADT.queue import Queue
+from ADT.stack import Stack  
 
 class Customer:
     def __init__(self, arrival_time):
