@@ -1,7 +1,10 @@
 import sys 
 sys.path.append('../data_structure')
 
-from linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
+try:
+    from linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
+except ModuleNotFoundError:
+    from data_structure.linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
 
 class Queue:
     def __init__(self, *elements, backend = list):
