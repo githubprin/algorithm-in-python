@@ -12,12 +12,27 @@ class LinkedNode:
 class LinkedList:
     def __init__(self, elements):
     
-        if elements == []:
+        if not elements:
             self.head = None 
             self.tail = None 
             self.end = None
             self.size = 0
         else:
+            '''
+            elements = list(elements)
+            
+            for idx, e in enumerate(elements):    
+                n = LinkedNode(node_id = idx, datum = e)
+                elements[idx] = n
+
+            for idx, e in enumerate(elements)
+                if idx != len(elements)-1:    
+                    e.next = elements[idx+1]
+            elements[-1].next = None
+
+            self.head = elements[0]
+            self.end = elements[-1]
+            '''
             elements = list(elements)
 
             for idx, elem in enumerate(elements):
@@ -30,8 +45,8 @@ class LinkedList:
             for idx, elem in enumerate(elements):
                 if idx == len(elements)-1:
                     elem.next = None
-                    break
-                elem.next = elements[idx+1]
+                else:  
+                    elem.next = elements[idx+1]
                 
             self.tail = LinkedList(elements[1:])
             self.size = len(elements)
@@ -45,6 +60,32 @@ class LinkedList:
             self.end = new_node
         self.size += 1
 
+    def delete_from_back(self):
+        # 큐가 비어있을 때
+        if self.size == 0:
+            return None
+
+        # 큐에 하나의 요소만 있을 때
+        if self.size == 1:
+            deleted_node = self.end
+            self.head = None
+            self.end = None
+            self.size -= 1
+            
+            return deleted_node.datum
+
+        # 큐에 두 개 이상의 요소가 있을 때
+        cur = self.head
+        while cur.next != self.end:
+            cur = cur.next
+        
+        deleted_node = self.end
+        self.end = cur
+        self.end.next = None
+        self.size -= 1
+
+        return deleted_node.datum
+
     def __iter__(self):
         yield None 
 
@@ -57,7 +98,6 @@ class LinkedList:
         return self.size
 
 
-
 class DoublyLinkedNode(Node):
     def __init__(self, node_id, datum, prev = None, next = None):
         self.node_id = node_id 
@@ -67,17 +107,68 @@ class DoublyLinkedNode(Node):
 
 class DoublyLinkedList:
     def __init__(self, elements):
-        if elements == []:
-            self.head = None 
-            self.tail = None 
-            self.end = None
-            self.size = 0
-        else:
-            self.head = None 
-            self.tail = None 
-            self.end = None
-            self.size = 0
+        if elements is None:
+            elements = []
+        elements = list(elements)
 
+        if not elements:
+            self.head = None
+            self.tail = None
+            self.size = 0
+       
+        else:
+            for idx, elem in enumerate(elements):
+                if not isinstance(elem, DoublyLinkedNode):
+                   elements[idx] = DoublyLinkedNode(idx, elem)
+                    
+            self.head = elements[0]
+            self.end = elements[-1]
+
+            for idx, elem in enumerate(elements):
+                if idx == len(elements)-1:
+                    elem.next = None
+                else:  
+                    elem.next = elements[idx+1]
+
+            for idx, elem in enumerate(elements):
+                if idx == 0:
+                    elem.prev = None
+                else:  
+                    elem.prev = elements[idx-1]
+                
+            self.tail = DoublyLinkedList(elements[1:])
+            self.size = len(elements)  
+
+    def add_to_front(self, elem):
+        new_node = DoublyLinkedNode(0, elem)
+        
+        if self.head is None:
+            self.head = new_node
+            self.end = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
+            
+        self.size += 1
+
+    def delete_from_back(self):
+        if self.size == 0:
+            return None
+
+        deleted_node = self.end
+
+        if self.size == 1:
+            self.head = None
+            self.end = None
+        else:
+            self.end = self.end.prev
+            self.end.next = None
+
+        self.size -= 1
+        return deleted_node.datum
+        
     def __iter__(self):
         yield None 
 
@@ -85,4 +176,3 @@ class DoublyLinkedList:
         res = ''
 
         return res 
-
