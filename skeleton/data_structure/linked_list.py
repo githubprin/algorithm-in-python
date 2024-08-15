@@ -51,7 +51,7 @@ class LinkedList:
             self.tail = LinkedList(elements[1:])
             self.size = len(elements)
 
-    def add_to_front(self, elem):
+    def add_to_head(self, elem):
         new_node = LinkedNode(0, elem)
         new_node.next = self.head
         self.head = new_node
@@ -61,11 +61,9 @@ class LinkedList:
         self.size += 1
 
     def delete_from_back(self):
-        # 큐가 비어있을 때
         if self.size == 0:
             return None
 
-        # 큐에 하나의 요소만 있을 때
         if self.size == 1:
             deleted_node = self.end
             self.head = None
@@ -74,7 +72,6 @@ class LinkedList:
             
             return deleted_node.datum
 
-        # 큐에 두 개 이상의 요소가 있을 때
         cur = self.head
         while cur.next != self.end:
             cur = cur.next
@@ -139,7 +136,7 @@ class DoublyLinkedList:
             self.tail = DoublyLinkedList(elements[1:])
             self.size = len(elements)  
 
-    def add_to_front(self, elem):
+    def add_to_head(self, elem):
         new_node = DoublyLinkedNode(0, elem)
         
         if self.head is None:
