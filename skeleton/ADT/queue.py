@@ -1,6 +1,6 @@
 import sys 
 sys.path.append('../data_structure')
-
+test
 
 try:
     from linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
