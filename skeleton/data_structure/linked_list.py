@@ -18,21 +18,6 @@ class LinkedList:
             self.end = None
             self.size = 0
         else:
-            '''
-            elements = list(elements)
-            
-            for idx, e in enumerate(elements):    
-                n = LinkedNode(node_id = idx, datum = e)
-                elements[idx] = n
-
-            for idx, e in enumerate(elements)
-                if idx != len(elements)-1:    
-                    e.next = elements[idx+1]
-            elements[-1].next = None
-
-            self.head = elements[0]
-            self.end = elements[-1]
-            '''
             elements = list(elements)
 
             for idx, elem in enumerate(elements):
@@ -61,6 +46,7 @@ class LinkedList:
         self.size += 1
 
     def delete_from_back(self):
+        # print('before', self, self.end.datum)
         if self.size == 0:
             return None
 
@@ -75,11 +61,15 @@ class LinkedList:
         cur = self.head
         while cur.next != self.end:
             cur = cur.next
-        
+        assert cur.next == self.end 
+        # from code import interact
+        # if self.end.datum == ('y', 4):
+        #     interact(local = locals())
         deleted_node = self.end
         self.end = cur
         self.end.next = None
         self.size -= 1
+        # print('after', self, self.end.datum)
 
         return deleted_node.datum
 
@@ -185,3 +175,12 @@ class DoublyLinkedList:
             res.append(str(current.datum))
             current = current.next
         return ' -> '.join(res) 
+
+if __name__ == '__main__':
+    lst = LinkedList([1,2,3])
+
+    print(lst) 
+    print(LinkedList.__str__(lst))
+    str(lst)
+    LinkedList.__str__(lst)
+    

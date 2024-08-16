@@ -129,7 +129,6 @@ class PriorityQueue:
     
     def elements(self):
         if self.backend == list:
-            # return sorted(self.list, key=lambda x: x[1])
             return self.list
         
         elif self.backend == LinkedList:
@@ -138,8 +137,6 @@ class PriorityQueue:
             while cur is not None:
                 res.append(cur.datum)
                 cur = cur.next
-            # print(self.backend, res)
-            # return res, key=lambda x: x[1])
             return res
         
         elif self.backend == DoublyLinkedList:
@@ -148,8 +145,6 @@ class PriorityQueue:
             while cur is not None:
                 res.append(cur.datum)
                 cur = cur.next
-            # print(self.backend, res)
-            # return sorted(res, key=lambda x: x[1])
             return res
         
     def enqueue(self, elem):
@@ -162,23 +157,44 @@ class PriorityQueue:
                 self.list.append(elem)
             
         elif self.backend == LinkedList:
-            new_node = LinkedNode(elem)  # Create a new node with the element
+            new_node = LinkedNode(node_id=0, datum=elem)
             
             if not self.linked_list.head or elem[1] < self.linked_list.head.datum[1]:
-                # Insert at the head if the list is empty or elem has higher priority
                 new_node.next = self.linked_list.head
                 self.linked_list.head = new_node
+            elif elem[1] > self.linked_list.end.datum[1]: # add to end
+                self.linked_list.end.next = new_node 
+                new_node.next = None 
+                self.linked_list.end = new_node
             else:
-                # Traverse the list to find the correct position
                 current = self.linked_list.head
-                while current.next and current.next.datum[1] <= elem[1]:
+                while current.next and current.next.datum[1] < elem[1]:
                     current = current.next
-                # Insert the new node at the correct position
                 new_node.next = current.next
                 current.next = new_node
+            
+            self.linked_list.size += 1
         
-        # elif self.backend == DoublyLinkedList:
-        #     self.doubly_linked_list.add_to_head(elem)
+        elif self.backend == DoublyLinkedList:
+            new_node = DoublyLinkedNode(node_id=0, datum=elem)
+
+            if not self.doubly_linked_list.head or elem[1] < self.doubly_linked_list.head.datum[1]:
+                new_node.next = self.doubly_linked_list.head
+                if self.doubly_linked_list.head:
+                    self.doubly_linked_list.head.prev = new_node
+                self.doubly_linked_list.head = new_node
+                self.doubly_linked_list.size += 1
+
+            else:
+                current = self.doubly_linked_list.head
+                while current.next and current.next.datum[1] <= elem[1]:
+                    current = current.next
+                new_node.next = current.next
+                if current.next:
+                    current.next.prev = new_node
+                current.next = new_node
+                new_node.prev = current
+                self.doubly_linked_list.size += 1
 
     def dequeue(self):
         if self.backend == list:
@@ -206,10 +222,9 @@ class PriorityQueue:
         if self.backend == list:
             return len(self.list)
         elif self.backend == LinkedList:
-            return len(self.linked_list) 
+            return self.linked_list.size
 
         elif self.backend == DoublyLinkedList:
-            # return sum(1 for item in self.doubly_linked_list if isinstance(item, tuple))
             return len(self.doubly_linked_list) 
 
     def is_empty(self):
@@ -231,7 +246,7 @@ class PriorityQueue:
         return True 
 
 if __name__ == '__main__':
-    available_backends = [list, LinkedList, DoublyLinkedList]
+    available_backends = [LinkedList] #, LinkedList, DoublyLinkedList]
 
     for backend in available_backends:
         q1 = Queue(1,2,3,4, backend = backend)
@@ -265,15 +280,19 @@ if __name__ == '__main__':
             print(q1.linked_list, q2.linked_list)
 
         q2 = PriorityQueue(('c',1), ('d',4), ('e',2), ('b',3), backend = backend)
-        # print(q2.elements())
         assert q2.elements() == [('c',1), ('e',2), ('b',3), ('d',4)], backend  
+    
         assert q2.size() == 4
         assert q2.front() == ('d', 4), backend
         assert not q2.is_empty()
+        # print('q2:', q2, backend)
+        # print('q2size is', q2.size(), backend)
         q2.dequeue()
         
         assert q2.elements() == [('c',1), ('e',2), ('b',3)], backend
-        assert q2.size() == 3 
+        # print('q2:', q2, backend)
+        # print('q2size is', q2.size(), backend)
+        assert q2.size() == 3, backend
         assert q2.front() == ('b', 3) 
         assert not q2.is_empty()
 
@@ -281,16 +300,24 @@ if __name__ == '__main__':
         q2.enqueue(('y', 4))
         q2.enqueue(('z', 2))
 
-        print(q2, backend)
+    
         assert q2.elements() == [('x', 0), ('c',1), ('z', 2), ('e',2), ('b',3), ('y', 4)], backend
-        assert q2.size() == 6
-        q2.dequeue()
-        q2.dequeue()
-        q2.dequeue()
-        q2.dequeue()
-        q2.dequeue()
-        q2.dequeue()
 
+        # print('q2:', q2, backend)
+        # print('q2size is', q2.size(), backend)
+        assert q2.size() == 6, backend
+        # print('q2:', q2, backend)
+        q2.dequeue()
+        # print('five remians:', q2, backend)
+        q2.dequeue()
+        # print('four remains:', q2, backend)
+        q2.dequeue()
+        # print('three remains:', q2, backend)
+        q2.dequeue()
+        # print('two remains:', q2, backend)
+        q2.dequeue()
+        # print('q2:', q2, backend)  
+        q2.dequeue()
+        # print('q2:', q2, backend)
         assert q2.is_empty()
-
 
