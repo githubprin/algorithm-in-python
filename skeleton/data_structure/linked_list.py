@@ -84,12 +84,18 @@ class LinkedList:
         return deleted_node.datum
 
     def __iter__(self):
-        yield None 
-
+        current = self.head
+        while current is not None:
+            yield current.datum
+            current = current.next
+            
     def __str__(self):
-        res = ''
-        
-        return res 
+        res = []
+        current = self.head
+        while current is not None:
+            res.append(str(current.datum))
+            current = current.next
+        return ' -> '.join(res)
 
     def __len__(self):
         return self.size
@@ -167,9 +173,15 @@ class DoublyLinkedList:
         return deleted_node.datum
         
     def __iter__(self):
-        yield None 
+        current = self.head
+        while current is not None:
+            yield current.datum
+            current = current.next
 
     def __str__(self):
-        res = ''
-
-        return res 
+        res = []
+        current = self.head
+        while current is not None:
+            res.append(str(current.datum))
+            current = current.next
+        return ' -> '.join(res) 

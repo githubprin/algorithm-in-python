@@ -1,6 +1,5 @@
 import sys 
 sys.path.append('../data_structure')
-test
 
 try:
     from linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
@@ -162,32 +161,24 @@ class PriorityQueue:
             else:
                 self.list.append(elem)
             
-    
         elif self.backend == LinkedList:
-            # new_node = elem
-
-            # if not self.linked_list.head or elem[1] < self.linked_list.head.datum[1]:
-            #     new_node.next = self.linked_list.head
-            #     self.linked_list.head = new_node
-            #     return
-
-            # current = self.linked_list.head
-            # while current.next and current.next.datum[1] <= elem[1]:
-            #     current = current.next
-
-            # new_node.next = current.next
-            # current.next = new_node
-
-            for idx, e in enumerate(self.list):
-                if elem[1] <= e[1]:
-                    self.linked_list.insert(idx, elem)
-                    break 
+            new_node = LinkedNode(elem)  # Create a new node with the element
+            
+            if not self.linked_list.head or elem[1] < self.linked_list.head.datum[1]:
+                # Insert at the head if the list is empty or elem has higher priority
+                new_node.next = self.linked_list.head
+                self.linked_list.head = new_node
             else:
-                self.linked_list.add_to_head(elem)
-            self.linked_list.add_to_head(elem)
+                # Traverse the list to find the correct position
+                current = self.linked_list.head
+                while current.next and current.next.datum[1] <= elem[1]:
+                    current = current.next
+                # Insert the new node at the correct position
+                new_node.next = current.next
+                current.next = new_node
         
-        elif self.backend == DoublyLinkedList:
-            self.doubly_linked_list.add_to_head(elem)
+        # elif self.backend == DoublyLinkedList:
+        #     self.doubly_linked_list.add_to_head(elem)
 
     def dequeue(self):
         if self.backend == list:
