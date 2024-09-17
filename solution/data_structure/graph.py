@@ -120,14 +120,16 @@ class AdjList:
         Implementation Steps:
         1. Check if the vertex 'v' is not already in the adjacency list.
         2. If not, add 'v' to the adjacency list with an empty list of neighbors.
-        3. If v is in the adj_list, raise ValueError. 
 
         Example:
             v3 = Vertex(3, 'C')
             adj_list.add_vertex(v3)
             # Now adj_list.adj_list includes v3: []
         """
-        pass 
+        if v not in self.adj_list:
+            self.adj_list[v] = []
+        else:
+            raise ValueError('Already in graph')
 
     def remove_vertex(self, v):
         """
@@ -151,7 +153,11 @@ class AdjList:
             adj_list.remove_vertex(v1)
             # Vertex v1 and all edges connected to it are removed from adj_list.adj_list.
         """
-        pass 
+        if v in self.adj_list:
+            del self.adj_list[v]
+            for neighbors in self.adj_list.values():
+                while v in neighbors:
+                    neighbors.remove(v)
 
     def add_edge(self, e):
         """
@@ -175,7 +181,9 @@ class AdjList:
             adj_list.add_edge(e2)
             # adj_list.adj_list[v1] will now include v3.
         """
-        pass
+        self.adj_list[e.from_vertex].append(e.to_vertex)
+        if not e.is_directed:
+            self.adj_list[e.to_vertex].append(e.from_vertex)
 
     def remove_edge(self, e):
         """
@@ -198,7 +206,10 @@ class AdjList:
             adj_list.remove_edge(e1)
             # The edge from v1 to v2 is removed from adj_list.adj_list.
         """
-        pass
+        if e.to_vertex in self.adj_list[e.from_vertex]:
+            self.adj_list[e.from_vertex].remove(e.to_vertex)
+        if not e.is_directed and e.from_vertex in self.adj_list[e.to_vertex]:
+            self.adj_list[e.to_vertex].remove(e.from_vertex)
 
     def get_vertices(self):
         """
@@ -217,7 +228,7 @@ class AdjList:
             vertices = adj_list.get_vertices()
             # vertices will be a list of all Vertex instances in the graph.
         """
-        pass
+        return list(self.adj_list.keys())
 
     def get_edges(self):
         """
@@ -243,7 +254,15 @@ class AdjList:
             edges = adj_list.get_edges()
             # edges will contain all Edge instances in the graph.
         """
-        pass
+        edges = []
+        seen = set()
+        for v, neighbors in self.adj_list.items():
+            for neighbor in neighbors:
+                edge = Edge(v, neighbor)
+                if (neighbor, v) not in seen:
+                    edges.append(edge)
+                    seen.add((v, neighbor))
+        return edges
 
     def get_neighbors(self, v):
         """
@@ -262,7 +281,7 @@ class AdjList:
             neighbors = adj_list.get_neighbors(v1)
             # neighbors will be a list of Vertex instances adjacent to v1.
         """
-        pass 
+        return self.adj_list.get(v, [])
 
 class AdjMatrix:
     """
@@ -345,7 +364,13 @@ class AdjMatrix:
             adj_matrix.add_vertex(v3)
             # The matrix now includes 'v3' as a new row and column.
         """
-        pass
+        if v not in self.vertex_indices:
+            self.vertex_indices[v] = len(self.vertices)
+            self.vertices.append(v)
+            n = len(self.vertices)
+            for row in self.matrix:
+                row.append(0)
+            self.matrix.append([0] * n)
 
     def remove_vertex(self, v):
         """
@@ -370,7 +395,13 @@ class AdjMatrix:
             adj_matrix.remove_vertex(v1)
             # Vertex 'v1' and its edges are removed from the graph.
         """
-        pass 
+        if v in self.vertex_indices:
+            idx = self.vertex_indices[v]
+            self.vertices.pop(idx)
+            self.matrix.pop(idx)
+            for row in self.matrix:
+                row.pop(idx)
+            self.vertex_indices = {vertex: i for i, vertex in enumerate(self.vertices)}
 
     def add_edge(self, e):
         """
@@ -395,7 +426,11 @@ class AdjMatrix:
             adj_matrix.add_edge(e2)
             # The matrix is updated to include the new edge.
         """
-        pass
+        i = self.vertex_indices[e.from_vertex]
+        j = self.vertex_indices[e.to_vertex]
+        self.matrix[i][j] = 1
+        if not e.is_directed:
+            self.matrix[j][i] = 1
 
     def remove_edge(self, e):
         """
@@ -419,7 +454,11 @@ class AdjMatrix:
             adj_matrix.remove_edge(e1)
             # The edge is removed from the matrix.
         """
-        pass
+        i = self.vertex_indices[e.from_vertex]
+        j = self.vertex_indices[e.to_vertex]
+        self.matrix[i][j] = 0
+        if not e.is_directed:
+            self.matrix[j][i] = 0
 
     def get_vertices(self):
         """
@@ -438,7 +477,7 @@ class AdjMatrix:
             vertices = adj_matrix.get_vertices()
             # vertices will be a list of all Vertex instances in the graph.
         """
-        pass
+        return self.vertices
 
     def get_edges(self):
         """
@@ -465,7 +504,13 @@ class AdjMatrix:
             edges = adj_matrix.get_edges()
             # edges will contain all Edge instances in the graph.
         """
-        pass
+        edges = []
+        n = len(self.vertices)
+        for i in range(n):
+            for j in range(n):
+                if self.matrix[i][j]:
+                    edges.append(Edge(self.vertices[i], self.vertices[j]))
+        return edges
 
     def get_neighbors(self, v):
         """
@@ -487,4 +532,10 @@ class AdjMatrix:
             neighbors = adj_matrix.get_neighbors(v1)
             # neighbors will be a list of Vertex instances adjacent to v1.
         """
-        pass 
+        idx = self.vertex_indices[v]
+        neighbors = []
+        n = len(self.vertices)
+        for j in range(n):
+            if self.matrix[idx][j]:
+                neighbors.append(self.vertices[j])
+        return neighbors

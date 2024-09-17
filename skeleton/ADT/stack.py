@@ -30,6 +30,9 @@ class Stack:
     def is_empty(self):
         if self.backend == list:
             return self.list == []
+    def elements(self):
+        if self.backend == list:
+            return self.list 
 
     def size(self):
         if self.backend == list:

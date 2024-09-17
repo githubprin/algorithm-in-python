@@ -1,7 +1,10 @@
 import sys 
 sys.path.append('../data_structure')
 
-from linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
+try:
+    from linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
+except ModuleNotFoundError:
+    from data_structure.linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
 
 class Queue:
     def __init__(self, *elements, backend = list):
@@ -114,7 +117,23 @@ class Queue:
             return self.elements == other.elements 
         return False 
 
+class PriorityQueue(Queue):
+    def __init__(self, *elements_with_priority, backend = list):
+        assert isinstance(elements_with_priority, list) or isinstance(elements_with_priority, tuple)
 
+        self.backend = backend
+
+        if self.backend == list:
+            self.list = sorted(elements_with_priority, key=lambda x: x[1])
+        
+        elif self.backend == LinkedList:
+            pass
+        
+        elif self.backend == DoublyLinkedList:
+            pass
+
+    def enqueue(self, elem):
+        
 
 
 if __name__ == '__main__':

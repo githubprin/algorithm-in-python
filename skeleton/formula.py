@@ -1,4 +1,3 @@
-
 from global_variables import FUNCTION_DICT, OPERATOR_PRIORITY
 from copy import deepcopy
 
@@ -38,7 +37,6 @@ class Formula:
         
     def __str__(self):
         return self.eq
-
     
 def tokenizer(equation):
     left = equation.replace(' ', '')

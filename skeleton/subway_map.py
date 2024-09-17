@@ -7,7 +7,8 @@ class Station(Vertex):
     def __init__(self, station_name, **data):
         super().__init__(station_name, data)
         self.station_name = station_name 
-        self.data = data 
+        self.data = data  
+
 
     def __eq__(self, other):
         if isinstance(other, Station):

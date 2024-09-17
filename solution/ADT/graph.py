@@ -77,9 +77,11 @@ class Graph:
         if self.backend == 'VE':
             pass 
         elif self.backend == 'adjacent_list':
-            pass 
+            self.adj_list = AdjList(V, E)
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            self.adj_matrix = AdjMatrix(V, E)
+        else:
+            raise ValueError('Invalid Backend')
 
     def add_vertex(self, v):
         """
@@ -133,9 +135,9 @@ class Graph:
             else:
                 raise ValueError(f'{v} is already in the graph')
         elif self.backend == 'adjacent_list':
-            pass 
+            self.adj_list.add_vertex(v)
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            self.adj_matrix.add_vertex(v)
     
     def remove_vertex(self, v):
         """
@@ -187,9 +189,9 @@ class Graph:
             except ValueError as e:
                 raise ValueError(f'{v} not in graph')
         elif self.backend == 'adjacent_list':
-            pass 
+            self.adj_list.remove_vertex(v)
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            self.adj_matrix.remove_vertex(v)
 
     def add_edge(self, e):
         """
@@ -242,9 +244,9 @@ class Graph:
         if self.backend == 'VE':
             self.E.append(e) 
         elif self.backend == 'adjacent_list':
-            pass 
+            self.adj_list.add_edge(e)
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            self.adj_matrix.add_edge(e)
 
     def remove_edge(self, e):
         """
@@ -297,9 +299,9 @@ class Graph:
         if self.backend == 'VE':
             self.E.remove(e)
         elif self.backend == 'adjacent_list':
-            pass 
+            self.adj_list.remove_edge(e)
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            self.adj_matrix.remove_edge(e)
 
     def get_vertices(self):
         """
@@ -316,11 +318,10 @@ class Graph:
         if self.backend == 'VE':
             return self.V 
         elif self.backend == 'adjacent_list':
-            pass 
+            return self.adj_list.get_vertices()
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            return self.adj_matrix.get_vertices()
          
-
     def get_edges(self):
         """
         Returns the list of edges in the graph.
@@ -336,9 +337,9 @@ class Graph:
         if self.backend == 'VE':
             return self.E 
         elif self.backend == 'adjacent_list':
-            pass 
+            return self.adj_list.get_edges()
         elif self.backend == 'adjacnet_matrix':
-            pass 
+            return self.adj_matrix.get_edges()
 
     def get_neighbors(self, v):
         """
@@ -378,10 +379,9 @@ class Graph:
             
             return res 
         elif self.backend == 'adjacent_list':
-            pass 
+            return self.adj_list.get_neighbors(v)
         elif self.backend == 'adjacnet_matrix':
-            pass 
-        return [] 
+            return self.adj_matrix.get_neighbors(v)
 
     def dfs(self, src):
         """
@@ -444,7 +444,6 @@ class Graph:
         elif self.backend == 'adjacnet_matrix':
             pass 
         
-
     def bfs(self, src):
         """
         Performs a breadth-first search starting from the given vertex.
@@ -500,8 +499,6 @@ class Graph:
         elif self.backend == 'adjacnet_matrix':
             pass 
         
-
-
     # Do not modify this method
 
     @staticmethod

@@ -4,11 +4,37 @@ from ADT.tree import Tree
 from data_structure.tree import Tree
 
 def get_directory_tree(directory, ignore_directories = [], ignore_extensions = []):
-    pass 
+    tree = make_tree(directory, ignore_directories = ignore_directories, ignore_extensions = ignore_extensions)
+    return str(tree) 
+
+def make_tree(directory, ignore_directories = [], ignore_extensions = []):
+    root = directory
+    
+    children = []
+
+    for elem in os.listdir(directory):
+        
+        # path = f'{directory}/{elem}'
+        path = os.path.join(directory, elem)
+
+        if os.path.isdir(path):
+            print(elem, elem == '__pycache__', ignore_directories)
+            if elem not in ignore_directories:
+                children.append(make_tree(path, 
+                    ignore_directories = ignore_directories, 
+                    ignore_extensions = ignore_extensions))
+        else:
+            if not elem.split('.')[-1] in ignore_extensions:
+                children.append(Tree(elem))
+
+    return Tree(root.split('\\')[-1], children)
+
 
 
 if __name__ == '__main__':
-    print(get_directory_tree('.'))
+    print(get_directory_tree('.', 
+        ignore_directories = ['__pycache__'], 
+        ignore_extensions = ['json']))
 
 """
 ./

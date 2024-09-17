@@ -1,4 +1,3 @@
-
 def get_insert_idx(res, elem, 
         cmp = lambda x, y: x if x > y else y, ):
 
@@ -8,7 +7,6 @@ def get_insert_idx(res, elem,
             return i 
     
     return len(res)
-
 
 def sort3_insert(lst, cmp = lambda x, y: x if x > y else y):
     res = []
@@ -28,7 +26,6 @@ def merge_sort(lst, cmp = lambda x, y: x if x > y else y):
         return merge(merge_sort(l), merge_sort(r), lst)
     else:
         return lst
-
 
 def merge(l, r, lst, cmp = lambda x, y: x if x > y else y):
     i, j, k = 0, 0, 0
@@ -55,7 +52,6 @@ def merge(l, r, lst, cmp = lambda x, y: x if x > y else y):
     
     return lst 
 
-
 def partition(lst, low, high, cmp = lambda x, y: x if x > y else y):
     i = low - 1  # index of smaller element
     pivot = lst[high]  # pivot
@@ -69,11 +65,8 @@ def partition(lst, low, high, cmp = lambda x, y: x if x > y else y):
     lst[i + 1], lst[high] = lst[high], lst[i + 1]  # swap
     return i + 1
 
-
 def quick_sort(lst, cmp = lambda x, y: x if x > y else y):
-
     return quick_sort_util(lst, 0, len(lst)-1, cmp = lambda x, y: x if x > y else y)
-
 
 def quick_sort_util(lst, low, high, cmp = lambda x, y: x if x > y else y):
     if low < high:

@@ -1,4 +1,3 @@
-
 from global_variables import FUNCTION_DICT, OPERATOR_PRIORITY
 from copy import deepcopy
 
@@ -6,8 +5,7 @@ import math
 import re
 
 from ADT.stack import Stack
-# from ADT.tree import Tree 
-from data_structure.tree import Tree 
+from ADT.tree import Tree 
 
 #-------------------------------------              
 # Formula Class

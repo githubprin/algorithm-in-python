@@ -26,7 +26,7 @@ class Queue:
             return self.list 
 
         elif self.backend == LinkedList:
-            pass
+            pass 
         
         elif self.backend == DoublyLinkedList:
             pass 
@@ -36,7 +36,7 @@ class Queue:
             self.list = [elem] + self.list
 
         elif self.backend == LinkedList:
-            pass
+            pass 
         
         elif self.backend == DoublyLinkedList:
             pass
@@ -46,7 +46,7 @@ class Queue:
             return self.list.pop()
                 
         elif self.backend == LinkedList:
-            pass
+            pass 
 
         elif self.backend == DoublyLinkedList:
             pass
@@ -73,21 +73,13 @@ class Queue:
 
     def is_empty(self):
         return self.size() == 0
-        # if self.backend == list:
-        #     return self.list == []
-
-        # elif self.backend == LinkedList:
-        #     return self.linked_list.size == 0
         
-        # elif self.backend == DoublyLinkedList:
-        #     return self.doubly_linked_list.size == 0
-
     def __str__(self):
         return str(self.elements())
 
     def __eq__(self, other):
         if isinstance(other, Queue):
-            return self.elements == other.elements 
+            return self.elements() == other.elements() 
         return True 
 
 
@@ -108,7 +100,6 @@ class PriorityQueue:
         elif self.backend == DoublyLinkedList:
             pass
 
-    
     def elements(self):
         if self.backend == list:
             return self.list
@@ -204,23 +195,18 @@ if __name__ == '__main__':
         assert q2.elements() == [1]
         assert q2.size() == 1
         assert not q2.is_empty()
-        
-        if backend == LinkedList:
-            print(q1.linked_list, q2.linked_list)
-
+    
         q2 = PriorityQueue(('c',1), ('d',4), ('e',2), ('b',3), backend = backend)
         assert q2.elements() == [('c',1), ('e',2), ('b',3), ('d',4)], backend  
     
         assert q2.size() == 4
         assert q2.front() == ('d', 4), backend
         assert not q2.is_empty()
-        # print('q2:', q2, backend)
-        # print('q2size is', q2.size(), backend)
+        
         q2.dequeue()
         
         assert q2.elements() == [('c',1), ('e',2), ('b',3)], backend
-        # print('q2:', q2, backend)
-        # print('q2size is', q2.size(), backend)
+        
         assert q2.size() == 3, backend
         assert q2.front() == ('b', 3) 
         assert not q2.is_empty()
@@ -231,7 +217,6 @@ if __name__ == '__main__':
 
     
         assert q2.elements() == [('x', 0), ('c',1), ('z', 2), ('e',2), ('b',3), ('y', 4)], backend
-
         
         assert q2.size() == 6, backend
         q2.dequeue()
