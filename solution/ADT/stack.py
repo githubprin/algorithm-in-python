@@ -6,7 +6,6 @@ try:
 except ModuleNotFoundError:
     from data_structure.linked_list import LinkedList, LinkedNode, DoublyLinkedNode, DoublyLinkedList
 
-
 class Stack:
     def __init__(self, *elements, backend = list):
         self.backend = backend

@@ -133,7 +133,7 @@ class PriorityQueue(Queue):
             pass
 
     def enqueue(self, elem):
-        
+        pass         
 
 
 if __name__ == '__main__':

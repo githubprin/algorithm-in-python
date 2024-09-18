@@ -1,14 +1,14 @@
 import sys 
-sys.path.append('../data_structure')
+import os 
 
-try:
-    from graph_datastructure import AdjList, AdjMatrix, Vertex, Edge
-    from queue import Queue 
-    from stack import Stack 
-except ModuleNotFoundError:
-    from data_structure.graph_datastructure import AdjList, AdjMatrix, Vertex, Edge
-    from ADT.queue import Queue 
-    from ADT.stack import Stack 
+cur_path = os.path.abspath(__file__)
+sys.path.append(f'{cur_path}/../data_structure')
+sys.path.append(f'{cur_path}/..')
+
+from data_structure.graph import AdjList, AdjMatrix, Vertex, Edge
+from ADT.queue import Queue 
+from ADT.stack import Stack 
+    
 
 class Graph:
     """
@@ -561,6 +561,8 @@ class Graph:
         ax.set_yticks([])
         plt.show()
 
+Edge = Edge 
+Vertex = Vertex 
 
 if __name__ == '__main__':
     q = Queue([1,2,3])

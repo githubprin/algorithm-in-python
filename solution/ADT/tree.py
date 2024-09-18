@@ -10,9 +10,9 @@ class TreeNode:
     A `TreeNode` is the fundamental building block of a tree data structure. Each node contains data (`datum`) and a unique identifier (`node_id`). Nodes are connected in a hierarchical manner to form the tree.
 
     Practical Usages:
-    - **File Systems**: Nodes represent files or directories.
-    - **Organizational Charts**: Nodes represent positions or employees.
-    - **Decision Trees**: Nodes represent decisions or outcomes in algorithms.
+    - File Systems: Nodes represent files or directories.
+    - Organizational Charts: Nodes represent positions or employees.
+    - Decision Trees: Nodes represent decisions or outcomes in algorithms.
 
     Visual Illustration:
 
@@ -55,9 +55,9 @@ class Tree:
     The `Tree` class models hierarchical data using `TreeNode` instances connected in a parent-child relationship. Each `Tree` instance has a `root` node and a list of `children`, which are themselves `Tree` instances. This recursive structure allows for the representation of complex hierarchies.
 
     Practical Usages:
-    - **File Systems**: Represent directories and files.
-    - **Organization Hierarchies**: Model company structures.
-    - **XML/HTML Document Trees**: Represent nested elements.
+    - File Systems: Represent directories and files.
+    - Organization Hierarchies: Model company structures.
+    - XML/HTML Document Trees: Represent nested elements.
 
     Visual Illustration:
 
